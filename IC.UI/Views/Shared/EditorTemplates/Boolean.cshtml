@@ -1,0 +1,21 @@
+﻿@using System.Globalization
+@{
+    bool? value = ViewData.Model != null ? Convert.ToBoolean(ViewData.Model,
+        CultureInfo.InvariantCulture) : null;
+
+    var triStateValues = new List<SelectListItem>
+    {
+        new SelectListItem {Text = "Not Set", Value = String.Empty, Selected = !value.HasValue},
+        new SelectListItem {Text = "True", Value = "true", Selected = value.HasValue && value.Value},
+        new SelectListItem {Text = "False", Value = "false", Selected = value.HasValue && !value.Value},
+    };
+}
+
+@if (ViewData.ModelMetadata.IsNullableValueType)
+{
+    @Html.DropDownList("", triStateValues, new { @class = "list-box tri-state" })
+}
+else
+{
+    @Html.CheckBox("", value ?? false, new { @class = "check-box" })
+}

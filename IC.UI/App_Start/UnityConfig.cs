@@ -1,6 +1,8 @@
 using System;
 using IC.Entities;
 using IC.Entities.Models;
+using IC.Services;
+using IC.Services.Interfaces;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Repository.Pattern.DataContext;
@@ -45,6 +47,7 @@ namespace IC.UI.App_Start
             container
                .RegisterType<IDataContextAsync, IcContext>()
                .RegisterType<IUnitOfWorkAsync, UnitOfWork>()
+               .RegisterType<IUnitOfWork, UnitOfWork>()
                .RegisterType<IRepositoryAsync<User>, Repository<User>>()
                .RegisterType<IRepositoryAsync<Computer>, Repository<Computer>>()
                .RegisterType<IRepositoryAsync<Course>, Repository<Course>>()
@@ -54,7 +57,8 @@ namespace IC.UI.App_Start
                .RegisterType<IRepositoryAsync<Specialty>, Repository<Specialty>>()
                .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
                .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
-               .RegisterType<IService<User>, Service<User>>();
+               .RegisterType<IService<User>, Service<User>>()
+               .RegisterType<IUserService, UserService>();
         }
     }
 }

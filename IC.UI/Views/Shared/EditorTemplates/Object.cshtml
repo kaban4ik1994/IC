@@ -1,0 +1,26 @@
+﻿<div class="form-group">
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+</div>
+@foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm)))
+{
+    switch (prop.TemplateHint)
+    {
+        case "HiddenInput":
+            {
+                @Html.Editor(prop.PropertyName)
+                break;
+            }
+        default:
+            {
+                <div class="form-group">
+                    <div>
+                        @Html.ValidationMessage(prop.PropertyName, "", new { @class = "text-danger" })
+                        @Html.Editor(prop.PropertyName)
+                    </div>
+                </div>
+                break;
+            }
+    }
+}

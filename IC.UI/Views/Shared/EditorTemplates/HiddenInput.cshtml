@@ -1,0 +1,1 @@
+﻿@Html.Hidden("", ViewData.ModelMetadata.Model is byte[] ? Convert.ToBase64String((byte[])ViewData.ModelMetadata.Model) : ViewData.ModelMetadata.Model)

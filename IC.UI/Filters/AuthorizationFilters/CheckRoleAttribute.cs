@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using IC.Entities.Models;
+using IC.Services.Interfaces;
 using Service.Pattern;
 
 namespace IC.UI.Filters.AuthorizationFilters
@@ -11,23 +13,28 @@ namespace IC.UI.Filters.AuthorizationFilters
     {
         private readonly List<string> _roles;
 
-        public IService<User> UserService { get; set; }
+        public IUserService UserService { get; set; }
 
         public CheckRoleAttribute(string roles)
         {
-            UserService = DependencyResolver.Current.GetService<IService<User>>();
+            UserService = DependencyResolver.Current.GetService<IUserService>();
             _roles = roles.Split(',').ToList();
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            var authCooke = httpContext.Request.Cookies["__AUTH"];
-            if (authCooke == null) return false;
-            return UserService.Query(x => x.Email == authCooke.Value)
-                .Include(user1 => user1.UserRoles)
-                .Include(user1 => user1.UserRoles.Select(role => role.Role))
-                .Select()
-                .Any(user1 => user1.UserRoles.Any(role => _roles.Any(s => s == role.Role.Name)));
+            var authCookie = httpContext.Request.Cookies["__AUTH"];
+            if (authCookie == null) return false;
+            return UserService.CheckUserRole(authCookie.Value, _roles);
+        }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
+            {
+                {"action", "Login"},
+                {"controller", "Account"}
+            });
         }
     }
 }

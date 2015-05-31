@@ -89,14 +89,7 @@ footer {
     font-size: 30px;
 }
 
-.comment {
-    resize: none;
-    width: 100%;
-}
 
-.comment-block {
-    border-bottom: 1px solid #00ff00;
-    border-top: 1px solid #00ff00;
-    border-left: 1px solid #00ff00;
-    border-right: 1px solid #00ff00;
+.editor-field input {
+    width: 100%;
 }

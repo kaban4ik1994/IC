@@ -1,0 +1,74 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@using System.Web.Optimization
+@using IC.UI.Helpers
+@{
+    var user = AuthHelper.GetUser(Context);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information about computers</title>
+    @RenderSection("links", false)
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <!--header-->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Information about computers</a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    @if (user != null)
+                    {
+                        <li>@Html.ActionLink("Hello" + user.FirstName + " " + user.SecondName, "Index", "Home")</li>
+                        <li>@Html.ActionLink("LogOff", "LogOff", "Account")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("LogIn", "Login", "Account") </li>
+                        <li>@Html.ActionLink("Register", "Register", "Account") </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--/header-->
+    <!--content-->
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-9">
+                <p class="pull-right visible-xs">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Menu</button>
+                </p>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="title">
+                            <h1>@ViewBag.Title</h1>
+                        </div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div><!--/span-->
+            @*@Html.Partial("_Menu", MenuHelper.GetMenuItems(new DepartamentUtil(ConfigHeper.DepartamentApiUrl), (string)ViewBag.Dep))*@
+        </div><!--/row-->
+        <!--/content-->
+        <hr>
+    </div><!--/.container-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", false)
+</body>
+</html>

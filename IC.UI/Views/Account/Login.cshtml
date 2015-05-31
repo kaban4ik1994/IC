@@ -1,0 +1,23 @@
+﻿@using System.Web.Optimization
+@model IC.UI.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+}
+<section id="register-form">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <br />
+        @Html.EditorForModel()
+        <div class="form-group text-right">
+            <input type="submit" class="btn btn-success" value="Login" />
+        </div>
+    }
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
