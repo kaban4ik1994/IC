@@ -9,7 +9,7 @@ namespace IC.Services.Interfaces
         User GetUserByEmailAndPassword(string email, string password);
         bool IsAdministrator(string email);
         User GetUserByEmail(string email);
-        long AddUser(User user);
+        User CreateUser(User user);
         bool CheckUserRole(string email, List<string> roles);
     }
 }

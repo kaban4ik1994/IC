@@ -1,7 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.ObjectModel;
+using System.Web.Mvc;
+using IC.Entities.Models;
+using IC.Helpers;
 using IC.Services.Interfaces;
 using IC.UI.Helpers;
 using IC.UI.Models;
+using Repository.Pattern.Infrastructure;
 
 namespace IC.UI.Controllers
 {
@@ -39,6 +43,28 @@ namespace IC.UI.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid) return RedirectToAction("Index", "Error");
+
+            var user = _userService.CreateUser(new User
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                SecondName = model.SecondName,
+                PasswordHash = PasswordHashHelper.GetHash(model.Password),
+                UserRoles = new Collection<UserRole> { new UserRole { ObjectState = ObjectState.Added, RoleId = 1 } },
+                SentMessages = new Collection<Message>(),
+                ReceivedMessages = new Collection<Message>(),
+                ObjectState = ObjectState.Added
+            });
+            AuthHelper.LogInUser(HttpContext, user.Email);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

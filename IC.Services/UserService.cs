@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using IC.Entities.Models;
 using IC.Helpers;
 using IC.Services.Interfaces;
+using Repository.Pattern.Infrastructure;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.UnitOfWork;
 using Service.Pattern;
@@ -11,9 +14,9 @@ namespace IC.Services
 {
     public class UserService : Service<User>, IUserService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkAsync _unitOfWork;
 
-        public UserService(IRepositoryAsync<User> repository, IUnitOfWork unitOfWork)
+        public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWork)
             : base(repository)
         {
             _unitOfWork = unitOfWork;
@@ -45,11 +48,11 @@ namespace IC.Services
                  .Select().FirstOrDefault();
         }
 
-        public long AddUser(User user)
+        public User CreateUser(User user)
         {
             Insert(user);
             _unitOfWork.SaveChanges();
-            return user.UserId;
+            return user;
         }
 
         public bool CheckUserRole(string email, List<string> roles)
