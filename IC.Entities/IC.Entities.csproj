@@ -49,20 +49,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICContext.cs" />
+    <Compile Include="IcContext.cs" />
+    <Compile Include="IcContextInitializer.cs" />
+    <Compile Include="Mapping\RoleMap.cs" />
+    <Compile Include="Mapping\UserMap.cs" />
+    <Compile Include="Mapping\UserRoleMap.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeedFillers\AbstractSeedFiller.cs" />
+    <Compile Include="SeedFillers\ISeedFiller.cs" />
+    <Compile Include="SeedFillers\RoleSeedFiller.cs" />
+    <Compile Include="SeedFillers\UserRoleSeedFiller.cs" />
+    <Compile Include="SeedFillers\UserSeedFiller.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Mapping\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Models\" />
-    <Folder Include="SeedFillers\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IC.Configuration\IC.Configuration.csproj">
+      <Project>{201a3a89-1f4a-4ca6-9362-9d09447c068b}</Project>
+      <Name>IC.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IC.Helpers\IC.Helpers.csproj">
+      <Project>{10c2459f-4923-47e5-ae1c-ebc97593064a}</Project>
+      <Name>IC.Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Repository.Pattern.Ef6\Repository.Pattern.Ef6.csproj">
       <Project>{f68a1d19-93fb-47c1-a22b-42bea3e4fd8c}</Project>
       <Name>Repository.Pattern.Ef6</Name>
