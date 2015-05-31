@@ -19,6 +19,8 @@ namespace IC.Entities.Mapping
             ToTable("Users");
 
             HasMany(entity => entity.UserRoles);
+            HasMany(entity => entity.SentMessages);
+            HasMany(entity => entity.ReceivedMessages);
         }
     }
 }

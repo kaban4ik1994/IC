@@ -1,6 +1,13 @@
 using System;
+using IC.Entities;
+using IC.Entities.Models;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using Repository.Pattern.DataContext;
+using Repository.Pattern.Ef6;
+using Repository.Pattern.Repositories;
+using Repository.Pattern.UnitOfWork;
+using Service.Pattern;
 
 namespace IC.UI.App_Start
 {
@@ -35,8 +42,19 @@ namespace IC.UI.App_Start
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            // TODO: Register your types here
-            // container.RegisterType<IProductRepository, ProductRepository>();
+            container
+               .RegisterType<IDataContextAsync, IcContext>()
+               .RegisterType<IUnitOfWorkAsync, UnitOfWork>()
+               .RegisterType<IRepositoryAsync<User>, Repository<User>>()
+               .RegisterType<IRepositoryAsync<Computer>, Repository<Computer>>()
+               .RegisterType<IRepositoryAsync<Course>, Repository<Course>>()
+               .RegisterType<IRepositoryAsync<Group>, Repository<Group>>()
+               .RegisterType<IRepositoryAsync<Message>, Repository<Message>>()
+               .RegisterType<IRepositoryAsync<Role>, Repository<Role>>()
+               .RegisterType<IRepositoryAsync<Specialty>, Repository<Specialty>>()
+               .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
+               .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
+               .RegisterType<IService<User>, Service<User>>();
         }
     }
 }

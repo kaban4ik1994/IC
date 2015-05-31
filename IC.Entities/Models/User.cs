@@ -12,5 +12,7 @@ namespace IC.Entities.Models
         public string SecondName { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<Message> SentMessages { get; set; }
+        public ICollection<Message> ReceivedMessages { get; set; } 
     }
 }
