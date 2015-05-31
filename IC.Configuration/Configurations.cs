@@ -43,5 +43,13 @@ namespace IC.Configuration
                 return new List<string> { "Admin", "User" };
             }
         }
+
+        public static int QuantityOfComputers
+        {
+            get
+            {
+                return 100;
+            }
+        }
     }
 }

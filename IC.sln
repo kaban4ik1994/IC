@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IC.Helpers", "IC.Helpers\IC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IC.UI", "IC.UI\IC.UI.csproj", "{78730C06-B88B-4CB0-96DB-8D8996E45627}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IC.RandomInformation", "IC.RandomInformation\IC.RandomInformation.csproj", "{9B588A19-027C-4A4F-B085-EF66DE9B9A36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,12 @@ Global
 		{78730C06-B88B-4CB0-96DB-8D8996E45627}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78730C06-B88B-4CB0-96DB-8D8996E45627}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78730C06-B88B-4CB0-96DB-8D8996E45627}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B588A19-027C-4A4F-B085-EF66DE9B9A36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B588A19-027C-4A4F-B085-EF66DE9B9A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B588A19-027C-4A4F-B085-EF66DE9B9A36}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B588A19-027C-4A4F-B085-EF66DE9B9A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B588A19-027C-4A4F-B085-EF66DE9B9A36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B588A19-027C-4A4F-B085-EF66DE9B9A36}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

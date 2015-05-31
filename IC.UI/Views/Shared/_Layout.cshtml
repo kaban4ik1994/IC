@@ -32,7 +32,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (user != null)
                     {
-                        <li>@Html.ActionLink("Hello" + user.FirstName + " " + user.SecondName, "Index", "Home")</li>
+                        <li>@Html.ActionLink("Hello " + user.FirstName + " " + user.SecondName, "Index", "Home")</li>
                         <li>@Html.ActionLink("LogOff", "LogOff", "Account")</li>
                     }
                     else
