@@ -1,2 +1,28 @@
-﻿
-<h1>Home</h1>
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@using IC.UI.Helpers
+
+@model IList<IC.UI.Models.ComputerViewModel>
+
+@{
+    ViewBag.Title = "Computers";
+}
+<div>
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(computer => computer.Id).Titled("Id");
+    columns.Add(computer => computer.Name).Titled("Name");
+    columns.Add(computer => computer.Room).Titled("Room Number");
+    columns.Add(computer => computer.IpAddress).Titled("Ip Address");
+    columns.Add(computer => computer.NetworkAddress).Titled("Network Address");
+    columns.Add(computer => computer.SubnetAddress).Titled("Subnet Address");
+    if (AuthHelper.IsAdministrator(Context))
+    {
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(comuter => Html.ActionLink("Edit", "Edit", new { id = comuter.Id }).ToHtmlString());
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(comuter => Html.ActionLink("Delete", "Delete", new { id = comuter.Id }).ToHtmlString());
+    }
+}).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

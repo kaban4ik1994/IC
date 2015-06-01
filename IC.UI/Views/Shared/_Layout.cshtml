@@ -28,6 +28,13 @@
                 <a class="navbar-brand" href="/">Information about computers</a>
             </div>
             <div class="navbar-collapse collapse">
+                
+                <ul class="nav navbar-nav navbar-left">
+                    @if (user != null)
+                    {
+                        <li>@Html.ActionLink("Computers", "Index", "Home")</li>
+                    }
+                </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (user != null)
@@ -53,7 +60,7 @@
                 <p class="pull-right visible-xs">
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Menu</button>
                 </p>
-                <div class="row">
+                <div class="row" style="min-height: 600px">
                     <div class="col-md-10 col-md-offset-2">
                         <div class="title">
                             <h1>@ViewBag.Title</h1>
@@ -62,13 +69,13 @@
                     </div>
                 </div>
             </div><!--/span-->
-            @*@Html.Partial("_Menu", MenuHelper.GetMenuItems(new DepartamentUtil(ConfigHeper.DepartamentApiUrl), (string)ViewBag.Dep))*@
         </div><!--/row-->
         <!--/content-->
         <hr>
     </div><!--/.container-->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/gridmvc")
     @RenderSection("scripts", false)
 </body>
 </html>

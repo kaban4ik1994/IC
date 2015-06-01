@@ -57,7 +57,7 @@ namespace IC.UI.Controllers
                 FirstName = model.FirstName,
                 SecondName = model.SecondName,
                 PasswordHash = PasswordHashHelper.GetHash(model.Password),
-                UserRoles = new Collection<UserRole> { new UserRole { ObjectState = ObjectState.Added, RoleId = 1 } },
+                UserRoles = new Collection<UserRole> { new UserRole { ObjectState = ObjectState.Added, RoleId = 2 } },
                 SentMessages = new Collection<Message>(),
                 ReceivedMessages = new Collection<Message>(),
                 ObjectState = ObjectState.Added

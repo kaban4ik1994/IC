@@ -45,19 +45,20 @@ namespace IC.UI.App_Start
             // container.LoadConfiguration();
 
             container
-               .RegisterType<IDataContextAsync, IcContext>(new PerThreadLifetimeManager())
-               .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerThreadLifetimeManager())
-               .RegisterType<IRepositoryAsync<User>, Repository<User>>()
-               .RegisterType<IRepositoryAsync<Computer>, Repository<Computer>>()
-               .RegisterType<IRepositoryAsync<Course>, Repository<Course>>()
-               .RegisterType<IRepositoryAsync<Group>, Repository<Group>>()
-               .RegisterType<IRepositoryAsync<Message>, Repository<Message>>()
-               .RegisterType<IRepositoryAsync<Role>, Repository<Role>>()
-               .RegisterType<IRepositoryAsync<Specialty>, Repository<Specialty>>()
-               .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
-               .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
-               .RegisterType<IService<User>, Service<User>>(new PerThreadLifetimeManager())
-               .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager());
+                .RegisterType<IDataContextAsync, IcContext>(new PerThreadLifetimeManager())
+                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerThreadLifetimeManager())
+                .RegisterType<IRepositoryAsync<User>, Repository<User>>()
+                .RegisterType<IRepositoryAsync<Computer>, Repository<Computer>>()
+                .RegisterType<IRepositoryAsync<Course>, Repository<Course>>()
+                .RegisterType<IRepositoryAsync<Group>, Repository<Group>>()
+                .RegisterType<IRepositoryAsync<Message>, Repository<Message>>()
+                .RegisterType<IRepositoryAsync<Role>, Repository<Role>>()
+                .RegisterType<IRepositoryAsync<Specialty>, Repository<Specialty>>()
+                .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
+                .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
+                .RegisterType<IService<User>, Service<User>>(new PerThreadLifetimeManager())
+                .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
+                .RegisterType<IComputerService, ComputerService>(new PerThreadLifetimeManager());
         }
     }
 }
