@@ -16,8 +16,9 @@
             {
                 <div class="form-group">
                     <div>
-                        @Html.ValidationMessage(prop.PropertyName, "", new { @class = "text-danger" })
+                        @Html.Label(prop.PropertyName)
                         @Html.Editor(prop.PropertyName)
+                        @Html.ValidationMessage(prop.PropertyName, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 break;

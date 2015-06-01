@@ -1,14 +1,18 @@
 ﻿@using System.Web.Optimization
 @using GridMvc.Html
+@using IC.UI.Helpers
 @model IList<IC.UI.Models.CourseViewModel>
 
 @{
     ViewBag.Title = "Courses";
 }
 
-<div class="form-group">
-    <a class="btn btn-success" href="@Url.Action("Create", "Course")" role="button">Create Course</a>
-</div>
+@if (AuthHelper.IsAdministrator(Context))
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="@Url.Action("Create", "Course")" role="button">Create Course</a>
+    </div>
+}
 
 <div>
     @Html.Grid(Model).Columns(columns =>

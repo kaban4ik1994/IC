@@ -1,0 +1,30 @@
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@using IC.UI.Helpers
+@model IList<IC.UI.Models.SpecialtyViewModel>
+
+@{
+    ViewBag.Title = "Specialties";
+}
+
+@if (AuthHelper.IsAdministrator(Context))
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="@Url.Action("Create", "Specialty")" role="button">Create Specialty</a>
+    </div>
+}
+
+<div>
+    @Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(specialty => specialty.Id).Titled("Id");
+        columns.Add(specialty => specialty.CourseNumber).Titled("Course Number");
+        columns.Add(specialty => specialty.Name).Titled("Name");
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(specialty => Html.ActionLink("Edit", "Edit", new { id = specialty.Id }).ToHtmlString());
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(specialty => Html.ActionLink("Delete", "Delete", new { id = specialty.Id }).ToHtmlString());
+    })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
