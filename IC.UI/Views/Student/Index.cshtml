@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+@model IC.UI.Models.StudentViewModel
+
+@{
+    ViewBag.Title = "Students";
+}
+
+<div class="form-group">
+    <a class="btn btn-success" href="@Url.Action("Create", "Home")" role="button">Create student</a>
+</div>
+
+<div>
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
