@@ -21,7 +21,6 @@
 input,
 select,
 textarea {
-    
 }
 
 .jumbotron {
@@ -93,3 +92,4 @@ footer {
 .editor-field input {
     width: 100%;
 }
+

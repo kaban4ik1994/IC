@@ -1,0 +1,26 @@
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@model IList<IC.UI.Models.CourseViewModel>
+
+@{
+    ViewBag.Title = "Courses";
+}
+
+<div class="form-group">
+    <a class="btn btn-success" href="@Url.Action("Create", "Course")" role="button">Create Course</a>
+</div>
+
+<div>
+    @Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(course => course.Id).Titled("Id");
+        columns.Add(course => course.Number).Titled("Course Number");
+
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(course => Html.ActionLink("Edit", "Edit", new { id = course.Id }).ToHtmlString());
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(course => Html.ActionLink("Delete", "Delete", new { id = course.Id }).ToHtmlString());
+    })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

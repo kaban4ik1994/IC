@@ -8,9 +8,12 @@
     ViewBag.Title = "Computers";
 }
 
-<div class="form-group">
-    <a class="btn btn-success" href="@Url.Action("Create", "Home")" role="button">Create computer</a>
-</div>
+@if (AuthHelper.IsAdministrator(Context))
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="@Url.Action("Create", "Home")" role="button">Create computer</a>
+    </div>
+}
 
 <div>
     @Html.Grid(Model).Columns(columns =>

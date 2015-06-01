@@ -34,6 +34,11 @@
                     {
                         <li>@Html.ActionLink("Computers", "Index", "Home")</li>
                         <li>@Html.ActionLink("Students", "Index", "Student")</li>
+
+                        if (AuthHelper.IsAdministrator(Context))
+                        {
+                            <li>@Html.ActionLink("Courses", "Index", "Course")</li>
+                        }
                     }
                 </ul>
 
@@ -54,8 +59,12 @@
         </div>
     </div>
     <!--/header-->
+
     <!--content-->
     <div class="container">
+        
+
+
         <div class="row row-offcanvas row-offcanvas-right">
             <div class="col-xs-12 col-sm-9">
                 <p class="pull-right visible-xs">
