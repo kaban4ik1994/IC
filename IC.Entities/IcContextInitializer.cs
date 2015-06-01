@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using IC.Entities.Models;
 using IC.Entities.SeedFillers;
 
 namespace IC.Entities
@@ -18,6 +19,18 @@ namespace IC.Entities
 
             var computerFiller = new ComputerSeedFiller(context);
             computerFiller.Fill();
+
+            var courseFiller = new CourseSeedFiller(context);
+            courseFiller.Fill();
+
+            var specialtyFiller = new SpecialtySeedFiller(context);
+            specialtyFiller.Fill();
+
+            var groupFiller = new GroupSeedFiller(context);
+            groupFiller.Fill();
+
+            var studentFiller = new StudentSeedFiller(context);
+            studentFiller.Fill();
 
             base.Seed(context);
         }

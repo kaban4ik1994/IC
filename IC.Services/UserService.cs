@@ -57,8 +57,8 @@ namespace IC.Services
             var user = Query(x => x.Email == email)
                 .Include(user1 => user1.UserRoles)
                 .Include(user1 => user1.UserRoles.Select(role => role.Role))
-                .Select();
-            return user != null && user.Any(user1 => user1.UserRoles.Any(role => roles.Any(s => s == role.Role.Name)));
+                .Select().FirstOrDefault();
+            return user != null && user.UserRoles.Any(role => roles.Any(s => s == role.Role.Name));
         }
     }
 }

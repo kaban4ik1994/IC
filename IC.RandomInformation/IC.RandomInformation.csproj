@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomData\SpecialtyData.cs" />
     <Compile Include="RandomData\StudentData.cs" />
     <Compile Include="RandomGenerators\RandomGenerator.cs" />
   </ItemGroup>

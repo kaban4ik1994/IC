@@ -48,7 +48,31 @@ namespace IC.Configuration
         {
             get
             {
-                return 100;
+                return 15;
+            }
+        }
+
+        public static int QuantityOfSpecialities
+        {
+            get
+            {
+                return 10;
+            }
+        }
+
+        public static int QuantityOfGroups
+        {
+            get
+            {
+                return 30;
+            }
+        }
+
+        public static int QuantityOfStudents
+        {
+            get
+            {
+                return 400;
             }
         }
     }

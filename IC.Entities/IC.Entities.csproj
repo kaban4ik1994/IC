@@ -73,8 +73,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeedFillers\AbstractSeedFiller.cs" />
     <Compile Include="SeedFillers\ComputerSeedFiller.cs" />
+    <Compile Include="SeedFillers\CourseSeedFiller.cs" />
+    <Compile Include="SeedFillers\GroupSeedFiller.cs" />
     <Compile Include="SeedFillers\ISeedFiller.cs" />
     <Compile Include="SeedFillers\RoleSeedFiller.cs" />
+    <Compile Include="SeedFillers\SpecialtySeedFiller.cs" />
+    <Compile Include="SeedFillers\StudentSeedFiller.cs" />
     <Compile Include="SeedFillers\UserRoleSeedFiller.cs" />
     <Compile Include="SeedFillers\UserSeedFiller.cs" />
   </ItemGroup>

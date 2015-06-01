@@ -45,8 +45,8 @@ namespace IC.UI.App_Start
             // container.LoadConfiguration();
 
             container
-                .RegisterType<IDataContextAsync, IcContext>(new PerThreadLifetimeManager())
-                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerThreadLifetimeManager())
+                .RegisterType<IDataContextAsync, IcContext>(new PerRequestLifetimeManager())
+                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerRequestLifetimeManager())
                 .RegisterType<IRepositoryAsync<User>, Repository<User>>()
                 .RegisterType<IRepositoryAsync<Computer>, Repository<Computer>>()
                 .RegisterType<IRepositoryAsync<Course>, Repository<Course>>()
@@ -56,9 +56,10 @@ namespace IC.UI.App_Start
                 .RegisterType<IRepositoryAsync<Specialty>, Repository<Specialty>>()
                 .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
                 .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
-                .RegisterType<IService<User>, Service<User>>(new PerThreadLifetimeManager())
-                .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
-                .RegisterType<IComputerService, ComputerService>(new PerThreadLifetimeManager());
+                .RegisterType<IService<User>, Service<User>>(new PerRequestLifetimeManager())
+                .RegisterType<IService<Computer>, Service<Computer>>(new PerRequestLifetimeManager())
+                .RegisterType<IUserService, UserService>(new PerRequestLifetimeManager())
+                .RegisterType<IComputerService, ComputerService>(new PerRequestLifetimeManager());
         }
     }
 }

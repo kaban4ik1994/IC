@@ -20,9 +20,33 @@ namespace IC.Services
 
         public IList<Computer> GetAllComputers()
         {
-            return Query()
-                .Select()
-                .ToList();
+            var result = Queryable().ToList();
+            return result;
+        }
+
+        public void RemoveComputerById(long id)
+        {
+            Delete(id);
+            _unitOfWork.SaveChanges();
+        }
+
+        public Computer GetComputerById(long id)
+        {
+            var result = Find(id);
+            return result;
+        }
+
+        public void UpdateComputer(Computer computer)
+        {
+            Update(computer);
+            _unitOfWork.SaveChanges();
+        }
+
+        public long CreateComputer(Computer computer)
+        {
+            Insert(computer);
+            _unitOfWork.SaveChanges();
+            return computer.ComputerId;
         }
     }
 }
