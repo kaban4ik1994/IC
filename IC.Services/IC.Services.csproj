@@ -42,8 +42,10 @@
   <ItemGroup>
     <Compile Include="ComputerService.cs" />
     <Compile Include="CourseService.cs" />
+    <Compile Include="GroupService.cs" />
     <Compile Include="Interfaces\IComputerService.cs" />
     <Compile Include="Interfaces\ICourseService.cs" />
+    <Compile Include="Interfaces\IGroupService.cs" />
     <Compile Include="Interfaces\ISpecialtyService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

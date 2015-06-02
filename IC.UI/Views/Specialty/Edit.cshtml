@@ -2,7 +2,7 @@
 @model IC.UI.Models.SpecialtyEditViewModel
 
 @{
-    ViewBag.Title = Model.Courses.Any() ? "Create Specialty" : "Edit Specialty";
+    ViewBag.Title = Model.SpecialtyId == 0 ? "Create Specialty" : "Edit Specialty";
 }
 
 

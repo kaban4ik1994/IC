@@ -22,7 +22,6 @@ namespace IC.UI.Controllers
             _specialtyService = specialtyService;
         }
 
-        // GET: Specialty
         public ActionResult Index()
         {
             return View(_specialtyService.Query().Select(specialty => new SpecialtyViewModel
@@ -51,7 +50,6 @@ namespace IC.UI.Controllers
             return RedirectToAction("Index");
         }
 
-        [CheckRole("Admin")]
         [HttpGet]
         public ActionResult Edit(long id)
         {

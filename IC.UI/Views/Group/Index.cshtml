@@ -1,0 +1,32 @@
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@using IC.UI.Helpers
+@model IList<IC.UI.Models.GroupViewModel>
+
+@{
+    ViewBag.Title = "Groups";
+}
+
+@if (AuthHelper.IsAdministrator(Context))
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="@Url.Action("Create", "Group")" role="button">Create Group</a>
+    </div>
+}
+
+<div>
+    @Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(group => group.Id).Titled("Id");
+        columns.Add(group => group.CourseNumber).Titled("Course Number");
+        columns.Add(group => group.SpecialtyName).Titled("Specialty Name");
+        columns.Add(group => group.GroupNumber).Titled("Group Number");
+
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(group => Html.ActionLink("Edit", "Edit", new { id = group.Id }).ToHtmlString());
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(group => Html.ActionLink("Delete", "Delete", new { id = group.Id }).ToHtmlString());
+    })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

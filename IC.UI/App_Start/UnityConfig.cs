@@ -58,6 +58,7 @@ namespace IC.UI.App_Start
                 .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
                 .RegisterType<ICourseService, CourseService>(new PerRequestLifetimeManager())
                 .RegisterType<ISpecialtyService, SpecialtyService>(new PerRequestLifetimeManager())
+                .RegisterType<IGroupService, GroupService>(new PerRequestLifetimeManager())
                 .RegisterType<IUserService, UserService>(new PerRequestLifetimeManager())
                 .RegisterType<IComputerService, ComputerService>(new PerRequestLifetimeManager());
         }
