@@ -1,17 +1,69 @@
 ﻿@using System.Web.Optimization
+@using GridMvc.Html
+@using IC.UI.Helpers
 @model IC.UI.Models.StudentViewModel
 
 @{
     ViewBag.Title = "Students";
 }
 
-<div class="form-group">
-    <a class="btn btn-success" href="@Url.Action("Create", "Home")" role="button">Create student</a>
-</div>
+@if (AuthHelper.IsAdministrator(Context))
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="@Url.Action("Create", "Student")" role="button">Create Student</a>
+    </div>
+}
 
-<div>
+<div id="studentsContent">
 
+    <div class="col-md-12 form-inline" id="filters">
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(x => x.Courses)
+            @Html.DropDownList("Course", Model.Courses, new { @class = "form-control input-lg", @id = "course", @onchange = "refrechContent()" })
+        </div>
+        <div class="col-md-3 form-group">
+            @Html.LabelFor(x => x.Specialties)
+            @Html.DropDownList("Specialty", Model.Specialties, new { @class = "form-control input-lg", @id = "specialty", @onchange = "refrechContent()" })
+        </div>
+        <div class="col-md-2 form-group">
+            @Html.LabelFor(x => x.Groups)
+            @Html.DropDownListFor(model => model.GroupId, Model.Groups, new { @class = "form-control input-lg", @id = "group", @onchange = "refrechContent()" })
+        </div>
+        <div class="col-md-3 form-group">
+            @Html.LabelFor(x => x.YearOfEntrance)
+            @Html.DropDownListFor(model => model.YearOfEntrance, Model.YearOfEntrances, new { @class = "form-control input-lg", @id = "yearOfEntrance", @onchange = "refrechContent()" })
+        </div>
+        <div class="col-md-2 form-group" style="margin-top: 25px;">
+            <button class="btn btn-success btn-lg" href="" onclick="refrechContent()" role="button">Apply Filter</button>
+        </div>
+    </div>
+
+    <div id="students">
+        @Html.Grid(Model.Students).Columns(columns =>
+    {
+        columns.Add(student => student.StudentId).Titled("Id");
+        columns.Add(student => student.FirstName).Titled("First Name");
+        columns.Add(student => student.MiddleName).Titled("Middle Name");
+        columns.Add(student => student.LastName).Titled("Last Name");
+        columns.Add(student => student.YearOfEntrance).Titled("Year Of Entrance");
+        if (AuthHelper.IsAdministrator(Context))
+        {
+            columns.Add(student => student.Login).Titled("Login");
+            columns.Add(student => student.Password).Titled("Password");
+            columns.Add().Sanitized(false).Encoded(false).RenderValueAs(student => Html.ActionLink("Edit", "Edit", new { id = student.StudentId }).ToHtmlString());
+        }
+    }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
+    </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function refrechContent() {
+            location.href = '@Url.Action("Index", "Student")'
+                + '?courseId=' + $('#course').val()
+                + '&specialtyId=' + $('#specialty').val()
+                + '&groupId=' + $('#group').val()
+                + '&yearOfEntrance=' + $('#yearOfEntrance').val();
+        };
+    </script>
 }

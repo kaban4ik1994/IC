@@ -24,7 +24,7 @@
 
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(group => Html.ActionLink("Edit", "Edit", new { id = group.Id }).ToHtmlString());
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(group => Html.ActionLink("Delete", "Delete", new { id = group.Id }).ToHtmlString());
-    })
+    }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
 </div>
 
 @section Scripts {

@@ -22,7 +22,7 @@
 
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(course => Html.ActionLink("Edit", "Edit", new { id = course.Id }).ToHtmlString());
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(course => Html.ActionLink("Delete", "Delete", new { id = course.Id }).ToHtmlString());
-    })
+    }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
 </div>
 
 @section Scripts {

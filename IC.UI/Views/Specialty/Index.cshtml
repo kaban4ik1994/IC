@@ -22,7 +22,7 @@
         columns.Add(specialty => specialty.Name).Titled("Name");
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(specialty => Html.ActionLink("Edit", "Edit", new { id = specialty.Id }).ToHtmlString());
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(specialty => Html.ActionLink("Delete", "Delete", new { id = specialty.Id }).ToHtmlString());
-    })
+    }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
 </div>
 
 @section Scripts {
