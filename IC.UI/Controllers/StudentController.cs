@@ -34,7 +34,6 @@ namespace IC.UI.Controllers
         public ActionResult Index(long? courseId, long? specialtyId, long? groupId, int? yearOfEntrance)
         {
 
-
             var courses = _courseService.Queryable().ToList();
 
             if (courseId == null)
@@ -107,15 +106,80 @@ namespace IC.UI.Controllers
             return View(model);
         }
 
+        public ActionResult DropDowns(long? courseId, long? specialtyId, long? groupId)
+        {
+            var courses = _courseService.Queryable().ToList();
+
+            if (courseId == null)
+            {
+                var firstCourse = courses.FirstOrDefault();
+                courseId = firstCourse == null ? -1 : firstCourse.CourseId;
+            }
+
+            var specialties = _specialtyService
+                .Query(specialty => specialty.CourseId == (long)courseId)
+                .Select()
+                .ToList();
+
+            if (specialtyId == null)
+            {
+                var firstSpecialty = specialties.FirstOrDefault();
+                specialtyId = firstSpecialty == null ? -1 : firstSpecialty.SpecialtyId;
+            }
+            var groups = _groupService.Query(group => group.SpecialtyId == (long)specialtyId
+                && group.Specialty.CourseId == (long)courseId)
+                .Select()
+                .ToList();
+
+            if (groupId == null)
+            {
+                var firstGroup = groups.FirstOrDefault();
+                groupId = firstGroup == null ? -1 : firstGroup.GroupId;
+            }
+
+            return View("_DropdownsPartial", new StudentEditViewModel
+            {
+                Groups = new SelectList(groups, "GroupId", "GroupNumber"),
+                Courses = new SelectList(courses, "CourseId", "CourseNumber"),
+                Specialties = new SelectList(specialties, "SpecialtyId", "Name"),
+                GroupId = (long)groupId,
+                CourseId = (long)courseId,
+                SpecialtyId = (long)specialtyId
+            });
+        }
+
         [CheckRole("Admin")]
         public ActionResult Create()
         {
-            var groups = _groupService.Queryable().ToList();
+            var courses = _courseService.Queryable().ToList();
+
+            var firstCourse = courses.FirstOrDefault();
+            var courseId = firstCourse == null ? -1 : firstCourse.CourseId;
+
+            var specialties = _specialtyService
+                .Query(specialty => specialty.CourseId == (long)courseId)
+                .Select()
+                .ToList();
+
+            var firstSpecialty = specialties.FirstOrDefault();
+            var specialtyId = firstSpecialty == null ? -1 : firstSpecialty.SpecialtyId;
+
+            var groups = _groupService.Query(group => group.SpecialtyId == (long)specialtyId
+                && group.Specialty.CourseId == (long)courseId)
+                .Select()
+                .ToList();
+
+            var firstGroup = groups.FirstOrDefault();
+            var groupId = firstGroup == null ? -1 : firstGroup.GroupId;
 
             return View("Edit", new StudentEditViewModel
             {
                 Groups = new SelectList(groups, "GroupId", "GroupNumber"),
-                GroupId = groups.First().GroupId,
+                Courses = new SelectList(courses, "CourseId", "CourseNumber"),
+                Specialties = new SelectList(specialties, "SpecialtyId", "Name"),
+                GroupId = groupId,
+                CourseId = courseId,
+                SpecialtyId = specialtyId
             });
         }
 
@@ -135,9 +199,15 @@ namespace IC.UI.Controllers
             var entity = _studentService.Find(id);
             if (entity == null) return RedirectToAction("Index", "Error");
             var groups = _groupService.Queryable().ToList();
+            var courses = _courseService.Queryable().ToList();
+            var specialties = _specialtyService.Queryable().ToList();
             var model = new StudentEditViewModel
             {
                 Groups = new SelectList(groups, "GroupId", "GroupNumber"),
+                Courses = new SelectList(courses, "CourseId", "CourseNumber"),
+                Specialties = new SelectList(specialties, "SpecialtyId", "Name"),
+                CourseId = entity.Group.Specialty.CourseId,
+                SpecialtyId = entity.Group.SpecialtyId,
                 GroupId = entity.GroupId,
                 FirstName = entity.FirstName,
                 MiddleName = entity.MiddleName,

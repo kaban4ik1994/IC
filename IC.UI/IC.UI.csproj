@@ -217,6 +217,8 @@
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
+    <Content Include="Views\Shared\_Dropdown.cshtml" />
+    <Content Include="Views\Student\_DropdownsPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

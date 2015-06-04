@@ -22,6 +22,20 @@ namespace IC.UI.Models
 
         [HiddenInput]
         public long StudentId { get; set; }
+
+        [HiddenInput]
+        public long CourseId { get; set; }
+
+        [Display(Name = "Courses")]
+        public SelectList Courses { get; set; }
+
+        [HiddenInput]
+        public long SpecialtyId { get; set; }
+
+        [Display(Name = "Specialties")]
+        public SelectList Specialties { get; set; }
+
+        [Display(Name = "Groups")]
         public SelectList Groups { get; set; }
 
         [HiddenInput]

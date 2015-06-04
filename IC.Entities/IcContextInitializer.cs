@@ -17,8 +17,8 @@ namespace IC.Entities
             var userRoleFiller = new UserRoleSeedFiller(context);
             userRoleFiller.Fill();
 
-            var computerFiller = new ComputerSeedFiller(context);
-            computerFiller.Fill();
+            //var computerFiller = new ComputerSeedFiller(context);
+            //computerFiller.Fill();
 
             var courseFiller = new CourseSeedFiller(context);
             courseFiller.Fill();

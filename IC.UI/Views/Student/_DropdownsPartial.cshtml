@@ -1,0 +1,26 @@
+﻿@model IC.UI.Models.StudentEditViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="form-group">
+    <div>
+        @Html.LabelFor(x => x.Courses)
+        @Html.DropDownListFor(model => model.CourseId, Model.Courses, new { @class = "form-control input-lg", @id = "course", @onchange = "refrechContent()" })
+    </div>
+</div>
+
+<div class="form-group">
+    <div>
+        @Html.LabelFor(x => x.Specialties)
+        @Html.DropDownListFor(model => model.SpecialtyId, Model.Specialties, new { @class = "form-control input-lg", @id = "specialty", @onchange = "refrechContent()" })
+    </div>
+</div>
+
+<div class="form-group">
+    <div>
+        @Html.LabelFor(x => x.Groups)
+        @Html.DropDownListFor(model => model.GroupId, Model.Groups, new { @class = "form-control input-lg" })
+    </div>
+</div>
