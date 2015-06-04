@@ -1,14 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace IC.UI.Models
 {
     public class StudentEditViewModel
     {
+        public StudentEditViewModel()
+        {
+            var temp = new List<ListItem>();
+            for (var i = 0; i < 12; i++)
+            {
+                var year = (DateTime.Now.Year - 6 + i).ToString();
+                temp.Add(new ListItem { Text = year, Value = year });
+            }
+            YearOfEntrances = new SelectList(temp);
+
+        }
+
         [HiddenInput]
         public long StudentId { get; set; }
         public SelectList Groups { get; set; }
-        
+
         [HiddenInput]
         public long GroupId { get; set; }
 
@@ -24,8 +39,7 @@ namespace IC.UI.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Fill in the field.")]
-        [RegularExpression(@"^\d+$", ErrorMessage = "Invalid Group Number")]
+        public SelectList YearOfEntrances { get; set; }
         [Display(Name = "Year Of Entrance")]
         public string YearOfEntrance { get; set; }
         [HiddenInput]

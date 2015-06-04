@@ -23,7 +23,7 @@
     columns.Add(computer => computer.Room).Titled("Room Number");
     columns.Add(computer => computer.IpAddress).Titled("Ip Address");
     columns.Add(computer => computer.NetworkAddress).Titled("Network Address");
-    columns.Add(computer => computer.SubnetAddress).Titled("Subnet Address");
+    columns.Add(computer => computer.NetworkMask).Titled("Subnet Mask");
     if (AuthHelper.IsAdministrator(Context))
     {
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(comuter => Html.ActionLink("Edit", "Edit", new { id = comuter.Id }).ToHtmlString());

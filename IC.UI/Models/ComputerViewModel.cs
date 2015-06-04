@@ -9,6 +9,6 @@ namespace IC.UI.Models
         public Int64 Room { get; set; }
         public String IpAddress { get; set; }
         public String NetworkAddress { get; set; }
-        public String SubnetAddress { get; set; }
+        public String NetworkMask { get; set; }
     }
 }

@@ -54,8 +54,7 @@
         <div class="form-group">
             <div>
                 @Html.LabelFor(x => x.YearOfEntrance)
-                @Html.EditorFor(model => model.YearOfEntrance)
-                @Html.ValidationMessageFor(model => model.YearOfEntrance, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.YearOfEntrance, Model.YearOfEntrances, new { @class = "form-control input-lg" })
             </div>
         </div>
 

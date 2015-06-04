@@ -25,8 +25,9 @@ namespace IC.RandomInformation.RandomGenerators
 
         public static string GetRandomPassword(int min, int max)
         {
+            var countOfsymbols = GetRandomValueFromMinToMax(min, max);
             var result = string.Empty;
-            for (var i = min; i < max; i++)
+            for (var i = 0; i < countOfsymbols; i++)
             {
                 switch (GetRandomValueFromMinToMax(0, 3))
                 {

@@ -28,7 +28,7 @@ namespace IC.UI.Controllers
                 Room = computer.RoomNumber,
                 IpAddress = IpAddressHelper.ConvertIpAddressToString(computer.IpAddress),
                 NetworkAddress = IpAddressHelper.ConvertIpAddressToString(computer.NetworkAddress),
-                SubnetAddress = IpAddressHelper.ConvertIpAddressToString(computer.SubnetAddress)
+                NetworkMask = IpAddressHelper.ConvertIpAddressToString(computer.SubnetAddress)
             }).ToList());
         }
 
@@ -61,7 +61,7 @@ namespace IC.UI.Controllers
                 RoomNumber = entity.RoomNumber.ToString(),
                 IpAddress = IpAddressHelper.ConvertIpAddressToString(entity.IpAddress),
                 NetworkAddress = IpAddressHelper.ConvertIpAddressToString(entity.NetworkAddress),
-                SubnetAddress = IpAddressHelper.ConvertIpAddressToString(entity.SubnetAddress),
+                NetworkMask = IpAddressHelper.ConvertIpAddressToString(entity.SubnetAddress),
                 Name = entity.Name
             };
             return View(model);
@@ -81,7 +81,7 @@ namespace IC.UI.Controllers
                 Name = model.Name,
                 IpAddress = IpAddressHelper.ConvertStringToIpAddress(model.IpAddress),
                 NetworkAddress = IpAddressHelper.ConvertStringToIpAddress(model.NetworkAddress),
-                SubnetAddress = IpAddressHelper.ConvertStringToIpAddress(model.SubnetAddress)
+                SubnetAddress = IpAddressHelper.ConvertStringToIpAddress(model.NetworkMask)
             };
             if (entity.ComputerId != 0)
                 _computerService.UpdateComputer(entity);
