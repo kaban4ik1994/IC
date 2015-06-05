@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using IC.Entities.Models;
 using IC.Services.Interfaces;
 using IC.UI.Filters.AuthorizationFilters;
+using IC.UI.Helpers;
 using IC.UI.Models;
 using Repository.Pattern.UnitOfWork;
+using Action = IC.Entities.Models.Action;
 
 namespace IC.UI.Controllers
 {
@@ -14,12 +17,14 @@ namespace IC.UI.Controllers
         private readonly ICourseService _courseService;
         private readonly ISpecialtyService _specialtyService;
         private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly IHistoryService _historyService;
 
-        public SpecialtyController(ICourseService courseService, IUnitOfWorkAsync unitOfWork, ISpecialtyService specialtyService)
+        public SpecialtyController(ICourseService courseService, IUnitOfWorkAsync unitOfWork, ISpecialtyService specialtyService, IHistoryService historyService)
         {
             _courseService = courseService;
             _unitOfWork = unitOfWork;
             _specialtyService = specialtyService;
+            _historyService = historyService;
         }
 
         public ActionResult Index()
@@ -46,6 +51,13 @@ namespace IC.UI.Controllers
         {
             if (!ModelState.IsValid) return RedirectToAction("Index", "Error");
             _specialtyService.Delete(id);
+            _historyService.Insert(new History
+            {
+                Email = AuthHelper.GetUser(HttpContext).Email,
+                Action = Action.Delete,
+                DateTime = DateTime.Now,
+                Entity = EntityEnum.Speciality
+            });
             _unitOfWork.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -80,8 +92,27 @@ namespace IC.UI.Controllers
             };
 
             if (entity.SpecialtyId != 0)
+            {
                 _specialtyService.Update(entity);
-            else _specialtyService.Insert(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Update,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Speciality
+                });
+            }
+            else
+            {
+                _specialtyService.Insert(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Create,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Speciality
+                });
+            }
             _unitOfWork.SaveChanges();
 
             return RedirectToAction("Index");

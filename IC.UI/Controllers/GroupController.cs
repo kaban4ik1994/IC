@@ -4,8 +4,10 @@ using System.Web.Mvc;
 using IC.Entities.Models;
 using IC.Services.Interfaces;
 using IC.UI.Filters.AuthorizationFilters;
+using IC.UI.Helpers;
 using IC.UI.Models;
 using Repository.Pattern.UnitOfWork;
+using Action = IC.Entities.Models.Action;
 
 namespace IC.UI.Controllers
 {
@@ -16,13 +18,15 @@ namespace IC.UI.Controllers
         private readonly ISpecialtyService _specialtyService;
         private readonly IGroupService _groupService;
         private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly IHistoryService _historyService;
 
-        public GroupController(ICourseService courseService, ISpecialtyService specialtyService, IGroupService groupService, IUnitOfWorkAsync unitOfWork)
+        public GroupController(ICourseService courseService, ISpecialtyService specialtyService, IGroupService groupService, IUnitOfWorkAsync unitOfWork, IHistoryService historyService)
         {
             _courseService = courseService;
             _specialtyService = specialtyService;
             _groupService = groupService;
             _unitOfWork = unitOfWork;
+            _historyService = historyService;
         }
 
         public ActionResult Index()
@@ -51,6 +55,13 @@ namespace IC.UI.Controllers
         {
             if (!ModelState.IsValid) return RedirectToAction("Index", "Error");
             _groupService.Delete(id);
+            _historyService.Insert(new History
+            {
+                Email = AuthHelper.GetUser(HttpContext).Email,
+                Action = Action.Delete,
+                DateTime = DateTime.Now,
+                Entity = EntityEnum.Group
+            });
             _unitOfWork.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -85,8 +96,27 @@ namespace IC.UI.Controllers
             };
 
             if (entity.GroupId != 0)
+            {
                 _groupService.Update(entity);
-            else _groupService.Insert(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Update,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Group
+                });
+            }
+            else
+            {
+                _groupService.Insert(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Create,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Group
+                });
+            }
             _unitOfWork.SaveChanges();
 
             return RedirectToAction("Index");

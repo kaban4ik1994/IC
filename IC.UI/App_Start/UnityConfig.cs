@@ -56,12 +56,14 @@ namespace IC.UI.App_Start
                 .RegisterType<IRepositoryAsync<Specialty>, Repository<Specialty>>()
                 .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
                 .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
+                .RegisterType<IRepositoryAsync<History>, Repository<History>>()
                 .RegisterType<ICourseService, CourseService>(new PerRequestLifetimeManager())
                 .RegisterType<ISpecialtyService, SpecialtyService>(new PerRequestLifetimeManager())
                 .RegisterType<IStudentService, StudentService>(new PerRequestLifetimeManager())
                 .RegisterType<IGroupService, GroupService>(new PerRequestLifetimeManager())
                 .RegisterType<IUserService, UserService>(new PerRequestLifetimeManager())
                 .RegisterType<IMessageService, MessageService>(new PerRequestLifetimeManager())
+                .RegisterType<IHistoryService, HistoryService>(new PerRequestLifetimeManager())
                 .RegisterType<IComputerService, ComputerService>(new PerRequestLifetimeManager());
         }
     }

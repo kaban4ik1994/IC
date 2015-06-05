@@ -1,0 +1,26 @@
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@using IC.UI.Helpers
+@model IList<IC.Entities.Models.History>
+
+@{
+    ViewBag.Title = "History";
+}
+
+
+<div>
+    @Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(history => history.HistoryId).Titled("Id").Filterable(true);
+        columns.Add(history => history.Email).Titled("Email").Filterable(true);
+        columns.Add(history => history.DateTime).Titled("Date").Filterable(true);
+        columns.Add(history => history.Entity).Titled("Object").Filterable(false);
+        columns.Add(history => history.Action).Titled("Action").Filterable(false);
+        
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(history => Html.ActionLink("Delete", "Delete", new { id = history.HistoryId }).ToHtmlString());
+    }).WithPaging(10).Sortable().WithMultipleFilters()
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

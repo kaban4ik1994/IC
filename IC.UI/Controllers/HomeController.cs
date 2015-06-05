@@ -6,16 +6,19 @@ using IC.Services.Interfaces;
 using IC.UI.Filters.AuthorizationFilters;
 using IC.UI.Helpers;
 using IC.UI.Models;
+using Action = IC.Entities.Models.Action;
 
 namespace IC.UI.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IComputerService _computerService;
+        private readonly IHistoryService _historyService;
 
-        public HomeController(IComputerService computerService)
+        public HomeController(IComputerService computerService, IHistoryService historyService)
         {
             _computerService = computerService;
+            _historyService = historyService;
         }
 
         [CheckRole("Admin,User")]
@@ -37,6 +40,13 @@ namespace IC.UI.Controllers
         {
             if (!ModelState.IsValid) return RedirectToAction("Index", "Error");
             _computerService.RemoveComputerById(id);
+            _historyService.Insert(new History
+            {
+                Email = AuthHelper.GetUser(HttpContext).Email,
+                Action = Action.Delete,
+                DateTime = DateTime.Now,
+                Entity = EntityEnum.Computer
+            });
             return RedirectToAction("Index");
         }
 
@@ -84,9 +94,27 @@ namespace IC.UI.Controllers
                 SubnetAddress = IpAddressHelper.ConvertStringToIpAddress(model.NetworkMask)
             };
             if (entity.ComputerId != 0)
+            {
                 _computerService.UpdateComputer(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Update,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Computer
+                });
+            }
             else
+            {
                 _computerService.CreateComputer(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Create,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Computer
+                });
+            }
 
             return RedirectToAction("Index");
         }

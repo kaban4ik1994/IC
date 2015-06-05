@@ -7,8 +7,10 @@ using IC.Helpers;
 using IC.RandomInformation.RandomGenerators;
 using IC.Services.Interfaces;
 using IC.UI.Filters.AuthorizationFilters;
+using IC.UI.Helpers;
 using IC.UI.Models;
 using Repository.Pattern.UnitOfWork;
+using Action = IC.Entities.Models.Action;
 
 namespace IC.UI.Controllers
 {
@@ -20,14 +22,16 @@ namespace IC.UI.Controllers
         private readonly IGroupService _groupService;
         private readonly IStudentService _studentService;
         private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly IHistoryService _historyService;
 
-        public StudentController(ICourseService courseService, ISpecialtyService specialtyService, IGroupService groupService, IStudentService studentService, IUnitOfWorkAsync unitOfWork)
+        public StudentController(ICourseService courseService, ISpecialtyService specialtyService, IGroupService groupService, IStudentService studentService, IUnitOfWorkAsync unitOfWork, IHistoryService historyService)
         {
             _courseService = courseService;
             _specialtyService = specialtyService;
             _groupService = groupService;
             _studentService = studentService;
             _unitOfWork = unitOfWork;
+            _historyService = historyService;
         }
 
         [CheckRole("Admin,User")]
@@ -188,6 +192,13 @@ namespace IC.UI.Controllers
         {
             if (!ModelState.IsValid) return RedirectToAction("Index", "Error");
             _studentService.Delete(id);
+            _historyService.Insert(new History
+            {
+                Email = AuthHelper.GetUser(HttpContext).Email,
+                Action = Action.Delete,
+                DateTime = DateTime.Now,
+                Entity = EntityEnum.Student
+            });
             _unitOfWork.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -240,8 +251,27 @@ namespace IC.UI.Controllers
             };
 
             if (entity.StudentId != 0)
+            {
                 _studentService.Update(entity);
-            else _studentService.Insert(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Update,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Student
+                });
+            }
+            else
+            {
+                _studentService.Insert(entity);
+                _historyService.Insert(new History
+                {
+                    Email = AuthHelper.GetUser(HttpContext).Email,
+                    Action = Action.Create,
+                    DateTime = DateTime.Now,
+                    Entity = EntityEnum.Student
+                });
+            }
             _unitOfWork.SaveChanges();
 
             return RedirectToAction("Index");
