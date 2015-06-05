@@ -31,7 +31,7 @@ namespace IC.UI.Controllers
         public ActionResult Inbox()
         {
             var currentUser = AuthHelper.GetUser(HttpContext);
-            var model = _messageService.Query(message => message.ToUserId == currentUser.UserId)
+            var model = _messageService.Query(message => message.ToUserId == currentUser.UserId && message.ShowForSecondUser)
                 .Select(message => new MessageViewModel
                 {
                     Context = message.Context,
@@ -39,7 +39,8 @@ namespace IC.UI.Controllers
                     From = message.FromUser.Email,
                     MessageId = message.MessageId,
                     Subject = message.Subject,
-                    To = message.ToUser.Email
+                    To = message.ToUser.Email,
+                    IsNew = !message.IsViewed
                 }).ToList();
             return View(model);
         }
@@ -47,7 +48,7 @@ namespace IC.UI.Controllers
         public ActionResult Sent()
         {
             var currentUser = AuthHelper.GetUser(HttpContext);
-            var model = _messageService.Query(message => message.FromUserId == currentUser.UserId)
+            var model = _messageService.Query(message => message.FromUserId == currentUser.UserId && message.ShowForFirstUser)
                 .Select(message => new MessageViewModel
                 {
                     Context = message.Context,
@@ -69,6 +70,16 @@ namespace IC.UI.Controllers
             {
                 return RedirectToAction("Index", "Error");
             }
+
+            var updateMessage = _messageService.Find(id);
+
+            if (!updateMessage.IsViewed)
+            {
+                updateMessage.IsViewed = true;
+                _messageService.Update(updateMessage);
+                _unitOfWork.SaveChanges();
+            }
+
             var model = _messageService.Query(message => message.MessageId == id).Select(message => new MessageViewModel
             {
                 Context = message.Context,
@@ -125,6 +136,8 @@ namespace IC.UI.Controllers
                 FromUserId = AuthHelper.GetUser(HttpContext).UserId,
                 Subject = model.Subject,
                 IsViewed = false,
+                ShowForFirstUser = true,
+                ShowForSecondUser = true
             };
 
             _messageService.Insert(entity);
@@ -139,7 +152,7 @@ namespace IC.UI.Controllers
             var model = new MessageViewModel
             {
                 FromId = currentUser.UserId,
-                From = currentUser.Email
+                From = currentUser.Email,
             };
             if (!AuthHelper.IsAdministrator(HttpContext))
             {
@@ -165,6 +178,8 @@ namespace IC.UI.Controllers
                 FromUserId = AuthHelper.GetUser(HttpContext).UserId,
                 Subject = model.Subject,
                 IsViewed = false,
+                ShowForFirstUser = true,
+                ShowForSecondUser = true
             };
 
             if (!AuthHelper.IsAdministrator(HttpContext))
@@ -181,6 +196,25 @@ namespace IC.UI.Controllers
             _unitOfWork.SaveChanges();
 
             return RedirectToAction("Sent");
+        }
+
+        public ActionResult Delete(long id)
+        {
+            var currentUser = AuthHelper.GetUser(HttpContext);
+            var message = _messageService.Find(id);
+            var isInbox = false;
+            if (message.FromUserId == currentUser.UserId)
+            {
+                message.ShowForFirstUser = false;
+            }
+            else if (message.ToUserId == currentUser.UserId)
+            {
+                message.ShowForSecondUser = false;
+                isInbox = true;
+            }
+            _messageService.Update(message);
+            _unitOfWork.SaveChanges();
+            return isInbox ? RedirectToAction("Inbox") : RedirectToAction("Sent");
         }
     }
 }

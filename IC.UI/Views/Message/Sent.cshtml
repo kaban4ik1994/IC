@@ -15,7 +15,7 @@
         columns.Add(message => message.To).Titled("To");
         columns.Add(message => message.Subject).Titled("Subject");
         columns.Add().Sanitized(false).Encoded(false).RenderValueAs(message => Html.ActionLink("Detail", "Detail", new { id = message.MessageId }).ToHtmlString());
-        //columns.Add().Sanitized(false).Encoded(false).RenderValueAs(message => Html.ActionLink("Delete", "Delete", new { id = message.MessageId }).ToHtmlString());
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(message => Html.ActionLink("Delete", "Delete", new { id = message.MessageId }).ToHtmlString());
     }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
 </div>
 

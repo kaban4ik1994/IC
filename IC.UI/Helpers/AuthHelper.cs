@@ -36,6 +36,12 @@ namespace IC.UI.Helpers
             }
         }
 
+        public static long GetNewMessagesCount(long userId)
+        {
+            var messageService = DependencyResolver.Current.GetService<IMessageService>();
+            return messageService.GetNewMessagesCountByUserId(userId);
+        }
+
         public static User GetUser(HttpContextBase httpContext)
         {
             var authCookie = httpContext.Request.Cookies["__AUTH"];

@@ -10,7 +10,7 @@ namespace IC.UI.Models
         [Display(Name = "From:")]
         public string From { get; set; }
         [Required(ErrorMessage = "Fill in the field.")]
-        [Remote("CorrectEmailAddress", "Validation", ErrorMessage = "Invalid Email.")]
+        [Remote("CorrectEmailAddress", "Validation", AdditionalFields = "From",ErrorMessage = "Invalid Email.")]
         [Display(Name = "To:")]
         public string To { get; set; }
         [Required(ErrorMessage = "Fill in the field.")]
@@ -23,5 +23,6 @@ namespace IC.UI.Models
         public DateTime DispatchDate { get; set; }
         public long FromId { get; set; }
         public long ToId { get; set; }
+        public bool IsNew { get; set; }
     }
 }

@@ -5,5 +5,6 @@ namespace IC.Services.Interfaces
 {
     public interface IMessageService: IService<Message>
     {
+        long GetNewMessagesCountByUserId(long userId);
     }
 }

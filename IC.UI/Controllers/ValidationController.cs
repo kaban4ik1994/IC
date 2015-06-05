@@ -17,9 +17,10 @@ namespace IC.UI.Controllers
             _userService = userService;
         }
 
-        public JsonResult CorrectEmailAddress(string to)
+        public JsonResult CorrectEmailAddress(string to, string from)
         {
             var result = _userService.Query(x => x.Email == to).Select().Count() != 0;
+            if (to == from) result = false;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult CheckIpAddress(string ipAddress, string networkAddress, string networkMask)
