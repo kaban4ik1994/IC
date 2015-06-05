@@ -9,8 +9,14 @@
 
 @if (AuthHelper.IsAdministrator(Context))
 {
-    <div class="form-group">
-        <a class="btn btn-success" href="@Url.Action("Create", "Student")" role="button">Create Student</a>
+    <div class="form-inline">
+        <div class="form-group">
+            <a class="btn btn-success" href="@Url.Action("Create", "Student")" role="button">Create Student</a>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn-info" href="@Url.Action("Download", "Student")" role="button">Export to file</a>
+        </div>
     </div>
 }
 

@@ -43,7 +43,7 @@ namespace IC.Services
 
         public User GetAdministrator()
         {
-            var user = Query(x => x.Email == Configurations.AdminEmail).Select().FirstOrDefault();
+            var user = Query(x => x.UserRoles.Where(y => y.Role.Name == "Admin").Count() != 0).Select().FirstOrDefault();
             return user;
         }
 

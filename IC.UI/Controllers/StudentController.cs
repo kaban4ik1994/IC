@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using IC.Entities.Models;
 using IC.Helpers;
 using IC.RandomInformation.RandomGenerators;
 using IC.Services.Interfaces;
+using IC.UI.Actions;
 using IC.UI.Filters.AuthorizationFilters;
 using IC.UI.Helpers;
 using IC.UI.Models;
@@ -107,7 +109,21 @@ namespace IC.UI.Controllers
                     }).ToList()
             };
 
+            var gv = new GridView { DataSource = model.Students };
+            gv.DataBind();
+            Session["Students"] = gv;
+
             return View(model);
+        }
+
+        [CheckRole("Admin")]
+        public ActionResult Download()
+        {
+            if (Session["Students"] != null)
+            {
+                return new DownloadFileActionResult((GridView)Session["Students"], "Students.xls");
+            }
+            return RedirectToAction("Index", "Error");
         }
 
         public ActionResult DropDowns(long? courseId, long? specialtyId, long? groupId)

@@ -38,7 +38,7 @@ namespace IC.Entities.SeedFillers
                 FirstName = RandomGenerator.GetRandomFirstName(),
                 MiddleName = RandomGenerator.GetRandomMiddleName(),
                 LastName = RandomGenerator.GetRandomSecondName(),
-                Password = RandomGenerator.GetRandomPassword(5, 20),
+                Password = RandomGenerator.GetRandomPassword(10, 15),
                 YearOfEntrance = RandomGenerator.GetRandomValueFromMinToMax(DateTime.Now.Year - 6, DateTime.Now.Year + 5),
                 ObjectState = ObjectState.Added
             };
