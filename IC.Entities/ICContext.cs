@@ -28,7 +28,8 @@ namespace IC.Entities
         public DbSet<Group> Groups { get; set; }
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Message> Messages { get; set; } 
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<History> Histories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
