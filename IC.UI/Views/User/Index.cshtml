@@ -1,0 +1,24 @@
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@model IList<IC.UI.Models.UserViewModel>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<div>
+    @Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(user => user.UserId).Titled("Id");
+        columns.Add(user => user.Email).Titled("Email");
+        columns.Add(user => user.FirstName).Titled("First Name");
+        columns.Add(user => user.SecondName).Titled("Second Name");
+        columns.Add(user => user.IsAdmin).Titled("Admin");
+        columns.Add(user => user.IsUser).Titled("User");
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(user => Html.ActionLink("Edit", "Edit", new { id = user.UserId }).ToHtmlString());
+    }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
