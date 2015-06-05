@@ -13,6 +13,7 @@ namespace IC.Entities.Mapping
             Property(message => message.MessageId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(message => message.Context).IsRequired();
             Property(message => message.IsViewed).IsRequired();
+            Property(message => message.Subject).IsRequired();
             Property(message => message.DispatchDate).HasColumnType("datetime2").IsRequired();
 
             ToTable("Messages");

@@ -11,7 +11,7 @@ namespace IC.Entities.Models
         public string Context { get; set; }
         public bool IsViewed { get; set; }
         public DateTime DispatchDate { get; set; }
-
+        public string Subject { get; set; }
         public User FromUser { get; set; }
         public User ToUser { get; set; }
     }

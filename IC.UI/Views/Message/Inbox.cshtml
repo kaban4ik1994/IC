@@ -1,0 +1,24 @@
+﻿@using System.Web.Optimization
+@using GridMvc.Html
+@model IList<IC.UI.Models.MessageViewModel>
+
+@{
+    ViewBag.Title = "Inbox Messages";
+}
+
+<div>
+    @Html.Grid(Model).Columns(columns =>
+    {
+        columns.Add(message => message.MessageId).Titled("Id");
+        columns.Add(message => message.DispatchDate).Titled("Dispatch Date");
+        columns.Add(message => message.From).Titled("From");
+        columns.Add(message => message.To).Titled("To");
+        columns.Add(message => message.Subject).Titled("Subject");
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(message => Html.ActionLink("Detail", "Detail", new { id = message.MessageId }).ToHtmlString());
+        columns.Add().Sanitized(false).Encoded(false).RenderValueAs(message => Html.ActionLink("Delete", "Delete", new { id = message.MessageId }).ToHtmlString());
+    }).WithPaging(10).Sortable().Filterable().WithMultipleFilters()
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

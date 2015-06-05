@@ -1,0 +1,47 @@
+﻿@using System.Web.Optimization
+@model IC.UI.Models.MessageViewModel
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+<section id="detail-form">
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(x => x.From)
+            @Html.LabelFor(x => x.From, Model.From)
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(x => x.To)
+            @Html.LabelFor(x => x.To, Model.To)
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(x => x.DispatchDate)
+            @Html.LabelFor(x => x.DispatchDate, Model.DispatchDate.ToString())
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(x => x.Subject)
+            @Html.LabelFor(x => x.Subject, Model.Subject)
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(x => x.Context)
+            @Html.LabelFor(x => x.Context, Model.Context)
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+

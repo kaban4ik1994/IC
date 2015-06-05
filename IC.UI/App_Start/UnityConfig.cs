@@ -61,6 +61,7 @@ namespace IC.UI.App_Start
                 .RegisterType<IStudentService, StudentService>(new PerRequestLifetimeManager())
                 .RegisterType<IGroupService, GroupService>(new PerRequestLifetimeManager())
                 .RegisterType<IUserService, UserService>(new PerRequestLifetimeManager())
+                .RegisterType<IMessageService, MessageService>(new PerRequestLifetimeManager())
                 .RegisterType<IComputerService, ComputerService>(new PerRequestLifetimeManager());
         }
     }
