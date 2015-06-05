@@ -43,6 +43,14 @@ namespace IC.Services
             return user != null && user.UserRoles.Any(x => x.Role.Name == "Admin");
         }
 
+        public bool IsEmptyRoleList(string email)
+        {
+            var userRole = _userRoleRepositoryAsync
+               .Query(role => role.User.Email == email)
+               .Select(role => role.Role.Name).ToList();
+            return userRole.Count == 0;
+        }
+
         public User GetAdministrator()
         {
             var user = Query(x => x.UserRoles.Where(y => y.Role.Name == "Admin").Count() != 0).Select().FirstOrDefault();

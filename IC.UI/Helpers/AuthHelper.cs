@@ -42,6 +42,14 @@ namespace IC.UI.Helpers
             return messageService.GetNewMessagesCountByUserId(userId);
         }
 
+        public static bool IsNonRole(HttpContextBase httpContext)
+        {
+            var authCookie = httpContext.Request.Cookies["__AUTH"];
+            if (authCookie == null) return false;
+            var userService = DependencyResolver.Current.GetService<IUserService>();
+            return userService.IsEmptyRoleList(authCookie.Value);
+        }
+
         public static User GetUser(HttpContextBase httpContext)
         {
             var authCookie = httpContext.Request.Cookies["__AUTH"];

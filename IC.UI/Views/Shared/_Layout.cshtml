@@ -32,21 +32,24 @@
                 <ul class="nav navbar-nav navbar-left">
                     @if (user != null)
                     {
-                        <li>@Html.ActionLink("Computers", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Students", "Index", "Student")</li>
-
-                        if (AuthHelper.IsAdministrator(Context))
+                        if (!AuthHelper.IsNonRole(Context))
                         {
-                            <li>@Html.ActionLink("Courses", "Index", "Course")</li>
-                            <li>@Html.ActionLink("Specialties", "Index", "Specialty")</li>
-                            <li>@Html.ActionLink("Groups", "Index", "Group")</li>
-                            <li>@Html.ActionLink("History", "Index", "History")</li>
-                            <li>@Html.ActionLink("Users", "Index", "User")</li>
-                        }
+                            <li>@Html.ActionLink("Computers", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Students", "Index", "Student")</li>
 
-                        <li>@Html.ActionLink("Inbox(" + AuthHelper.GetNewMessagesCount(user.UserId) + ")", "Inbox", "Message")</li>
-                        <li>@Html.ActionLink("Sent", "Sent", "Message")</li>
-                        <li>@Html.ActionLink("New Message", "Create", "Message")</li>
+                            if (AuthHelper.IsAdministrator(Context))
+                            {
+                                <li>@Html.ActionLink("Courses", "Index", "Course")</li>
+                                <li>@Html.ActionLink("Specialties", "Index", "Specialty")</li>
+                                <li>@Html.ActionLink("Groups", "Index", "Group")</li>
+                                <li>@Html.ActionLink("History", "Index", "History")</li>
+                                <li>@Html.ActionLink("Users", "Index", "User")</li>
+                            }
+
+                            <li>@Html.ActionLink("Inbox(" + AuthHelper.GetNewMessagesCount(user.UserId) + ")", "Inbox", "Message")</li>
+                            <li>@Html.ActionLink("Sent", "Sent", "Message")</li>
+                            <li>@Html.ActionLink("New Message", "Create", "Message")</li>
+                        }
                     }
                 </ul>
 
