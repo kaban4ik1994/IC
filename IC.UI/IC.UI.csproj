@@ -232,6 +232,7 @@
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\History\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

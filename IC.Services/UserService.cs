@@ -14,11 +14,13 @@ namespace IC.Services
     public class UserService : Service<User>, IUserService
     {
         private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly IRepositoryAsync<UserRole> _userRoleRepositoryAsync;
 
-        public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWork)
+        public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWork, IRepositoryAsync<UserRole> userRoleRepositoryAsync)
             : base(repository)
         {
             _unitOfWork = unitOfWork;
+            _userRoleRepositoryAsync = userRoleRepositoryAsync;
         }
 
         public User GetUserByEmailAndPassword(string email, string password)
@@ -62,11 +64,10 @@ namespace IC.Services
 
         public bool CheckUserRole(string email, List<string> roles)
         {
-            var user = Query(x => x.Email == email)
-                .Include(user1 => user1.UserRoles)
-                .Include(user1 => user1.UserRoles.Select(role => role.Role))
-                .Select().FirstOrDefault();
-            return user != null && user.UserRoles.Any(role => roles.Any(s => s == role.Role.Name));
+            var userRole = _userRoleRepositoryAsync
+                .Query(role => role.User.Email == email)
+                .Select(role => role.Role.Name).ToList();
+            return userRole.Count != 0 && userRole.Any(s => roles.Any(s1 => s == s1));
         }
     }
 }

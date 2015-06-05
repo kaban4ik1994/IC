@@ -4,12 +4,10 @@ using IC.Entities.Models;
 using IC.Services;
 using IC.Services.Interfaces;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 using Repository.Pattern.DataContext;
 using Repository.Pattern.Ef6;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.UnitOfWork;
-using Service.Pattern;
 
 namespace IC.UI.App_Start
 {
@@ -57,6 +55,7 @@ namespace IC.UI.App_Start
                 .RegisterType<IRepositoryAsync<Student>, Repository<Student>>()
                 .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
                 .RegisterType<IRepositoryAsync<History>, Repository<History>>()
+                .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
                 .RegisterType<ICourseService, CourseService>(new PerRequestLifetimeManager())
                 .RegisterType<ISpecialtyService, SpecialtyService>(new PerRequestLifetimeManager())
                 .RegisterType<IStudentService, StudentService>(new PerRequestLifetimeManager())
@@ -64,7 +63,8 @@ namespace IC.UI.App_Start
                 .RegisterType<IUserService, UserService>(new PerRequestLifetimeManager())
                 .RegisterType<IMessageService, MessageService>(new PerRequestLifetimeManager())
                 .RegisterType<IHistoryService, HistoryService>(new PerRequestLifetimeManager())
-                .RegisterType<IComputerService, ComputerService>(new PerRequestLifetimeManager());
+                .RegisterType<IComputerService, ComputerService>(new PerRequestLifetimeManager())
+                .RegisterType<IUserRoleService, UserRoleService>(new PerRequestLifetimeManager());
         }
     }
 }
