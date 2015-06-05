@@ -1,0 +1,65 @@
+﻿@using System.Web.Optimization
+@using IC.UI.Helpers
+@model IC.UI.Models.MessageViewModel
+
+@{
+    ViewBag.Title = "New Message";
+}
+
+<section id="detail-form">
+    @using (Html.BeginForm("Create", "Message", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+
+        <div class="form-group">
+            <div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.HiddenFor(model => model.FromId)
+                @Html.LabelFor(x => x.From)
+                @Html.LabelFor(x => x.From, Model.From)
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.HiddenFor(model => model.ToId)
+                @Html.LabelFor(x => x.To)
+                @if (!AuthHelper.IsAdministrator(Context))
+                {
+                    @Html.LabelFor(x => x.To, Model.To)
+                    @Html.HiddenFor(model => model.To)
+                }
+                else
+                {
+                    @Html.EditorFor(x => x.To)
+                    @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(x => x.Subject)
+                @Html.EditorFor(x => x.Subject)
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(x => x.Context)
+                @Html.TextAreaFor(x => x.Context, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group text-right">
+            <input type="submit" class="btn btn-success" value="Send" />
+        </div>
+    }
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

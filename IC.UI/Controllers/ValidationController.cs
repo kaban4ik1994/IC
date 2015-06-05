@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IC.Services.Interfaces;
 using IC.UI.Helpers;
 
 namespace IC.UI.Controllers
 {
     public class ValidationController : Controller
     {
+        private readonly IUserService _userService;
 
+        public ValidationController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        public JsonResult CorrectEmailAddress(string to)
+        {
+            var result = _userService.Query(x => x.Email == to).Select().Count() != 0;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult CheckIpAddress(string ipAddress, string networkAddress, string networkMask)
         {
             var networkAddressBytes = IpAddressHelper.ConvertStringToIpAddress(networkAddress);

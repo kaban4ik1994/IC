@@ -1,10 +1,16 @@
 ﻿@using System.Web.Optimization
+@using IC.UI.Helpers
 @model IC.UI.Models.MessageViewModel
 
 @{
     ViewBag.Title = "Detail";
 }
-
+@if (AuthHelper.GetUser(Context).Email == Model.To)
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="@Url.Action("Reply", "Message", new { id = Model.MessageId })" role="button">Reply</a>
+    </div>
+}
 <section id="detail-form">
     <div class="form-group">
         <div>

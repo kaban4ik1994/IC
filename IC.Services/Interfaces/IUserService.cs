@@ -11,5 +11,6 @@ namespace IC.Services.Interfaces
         User GetUserByEmail(string email);
         User CreateUser(User user);
         bool CheckUserRole(string email, List<string> roles);
+        User GetAdministrator();
     }
 }

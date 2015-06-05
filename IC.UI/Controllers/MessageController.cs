@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using IC.Entities.Models;
 using IC.Services.Interfaces;
 using IC.UI.Filters.AuthorizationFilters;
 using IC.UI.Helpers;
 using IC.UI.Models;
+using Repository.Pattern.UnitOfWork;
 
 namespace IC.UI.Controllers
 {
@@ -14,10 +17,14 @@ namespace IC.UI.Controllers
     public class MessageController : Controller
     {
         private readonly IMessageService _messageService;
+        private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly IUserService _userService;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(IMessageService messageService, IUnitOfWorkAsync unitOfWork, IUserService userService)
         {
             _messageService = messageService;
+            _unitOfWork = unitOfWork;
+            _userService = userService;
         }
 
         // GET: Message
@@ -61,7 +68,7 @@ namespace IC.UI.Controllers
                 && (currentUser.UserId == message.FromUserId || currentUser.UserId == message.ToUserId)).Select().Count() == 0)
             {
                 return RedirectToAction("Index", "Error");
-            };
+            }
             var model = _messageService.Query(message => message.MessageId == id).Select(message => new MessageViewModel
             {
                 Context = message.Context,
@@ -78,6 +85,102 @@ namespace IC.UI.Controllers
             }
 
             return View(model);
+        }
+
+        public ActionResult Reply(long id)
+        {
+            var currentUser = AuthHelper.GetUser(HttpContext);
+            if (_messageService.Query(message => message.MessageId == id
+                && (currentUser.UserId == message.FromUserId || currentUser.UserId == message.ToUserId)).Select().Count() == 0)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var model = _messageService.Query(message => message.MessageId == id).Select(message => new MessageViewModel
+            {
+                From = currentUser.Email,
+                MessageId = message.MessageId,
+                Subject = "RE:" + message.Subject,
+                To = message.FromUser.Email,
+                FromId = currentUser.UserId,
+                ToId = message.FromUserId,
+            }).FirstOrDefault();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Reply(MessageViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var entity = new Message
+            {
+                Context = model.Context,
+                DispatchDate = DateTime.Now,
+                ToUserId = model.ToId,
+                FromUserId = AuthHelper.GetUser(HttpContext).UserId,
+                Subject = model.Subject,
+                IsViewed = false,
+            };
+
+            _messageService.Insert(entity);
+            _unitOfWork.SaveChanges();
+
+            return RedirectToAction("Sent");
+        }
+
+        public ActionResult Create()
+        {
+            var currentUser = AuthHelper.GetUser(HttpContext);
+            var model = new MessageViewModel
+            {
+                FromId = currentUser.UserId,
+                From = currentUser.Email
+            };
+            if (!AuthHelper.IsAdministrator(HttpContext))
+            {
+                var admin = _userService.GetAdministrator();
+                model.ToId = admin.UserId;
+                model.To = admin.Email;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Create(MessageViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var entity = new Message
+            {
+                Context = model.Context,
+                DispatchDate = DateTime.Now,
+                FromUserId = AuthHelper.GetUser(HttpContext).UserId,
+                Subject = model.Subject,
+                IsViewed = false,
+            };
+
+            if (!AuthHelper.IsAdministrator(HttpContext))
+            {
+                entity.ToUserId = _userService.GetAdministrator().UserId;
+            }
+
+            else
+            {
+                entity.ToUserId = _userService.GetUserByEmail(model.To).UserId;
+            }
+
+            _messageService.Insert(entity);
+            _unitOfWork.SaveChanges();
+
+            return RedirectToAction("Sent");
         }
     }
 }

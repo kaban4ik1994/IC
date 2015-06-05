@@ -5,6 +5,7 @@ namespace IC.Entities.Models
 {
     public partial class Message : Entity
     {
+       
         public long MessageId { get; set; }
         public long FromUserId { get; set; }
         public long ToUserId { get; set; }

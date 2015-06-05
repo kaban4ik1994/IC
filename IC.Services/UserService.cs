@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using IC.Configuration;
 using IC.Entities.Models;
 using IC.Helpers;
 using IC.Services.Interfaces;
@@ -37,6 +39,12 @@ namespace IC.Services
                  .Include(user1 => user1.UserRoles.Select(role => role.Role))
                 .Select().FirstOrDefault();
             return user != null && user.UserRoles.Any(x => x.Role.Name == "Admin");
+        }
+
+        public User GetAdministrator()
+        {
+            var user = Query(x => x.Email == Configurations.AdminEmail).Select().FirstOrDefault();
+            return user;
         }
 
         public User GetUserByEmail(string email)

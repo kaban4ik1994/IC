@@ -57,6 +57,10 @@
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IC.Configuration\IC.Configuration.csproj">
+      <Project>{201a3a89-1f4a-4ca6-9362-9d09447c068b}</Project>
+      <Name>IC.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IC.Entities\IC.Entities.csproj">
       <Project>{7fc61cdd-2496-4e66-be64-cab5a76462c8}</Project>
       <Name>IC.Entities</Name>
