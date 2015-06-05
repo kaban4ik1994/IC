@@ -25,12 +25,10 @@
         </div>
         <div class="form-group">
             <div>
-                @Html.HiddenFor(model => model.ToId)
-                @Html.LabelFor(x => x.To)
                 @if (!AuthHelper.IsAdministrator(Context))
                 {
-                    @Html.LabelFor(x => x.To, Model.To)
-                    @Html.HiddenFor(model => model.To)
+                    @Html.LabelFor(x => x.To)
+                    @Html.DropDownListFor(model => model.To, Model.AdminEmailList, new { @class = "form-control input-lg" })
                 }
                 else
                 {

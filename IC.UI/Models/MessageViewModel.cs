@@ -6,6 +6,9 @@ namespace IC.UI.Models
 {
     public class MessageViewModel
     {
+
+        public SelectList AdminEmailList { get; set; }
+
         public long MessageId { get; set; }
         [Display(Name = "From:")]
         public string From { get; set; }

@@ -159,6 +159,9 @@ namespace IC.UI.Controllers
                 var admin = _userService.GetAdministrator();
                 model.ToId = admin.UserId;
                 model.To = admin.Email;
+                model.AdminEmailList = new SelectList(_userService
+                    .Query(user => user.UserRoles.Where(role => role.Role.Name == "Admin").Count() != 0)
+                    .Select().ToList(), "Email", "Email");
             }
             return View(model);
         }
@@ -182,15 +185,7 @@ namespace IC.UI.Controllers
                 ShowForSecondUser = true
             };
 
-            if (!AuthHelper.IsAdministrator(HttpContext))
-            {
-                entity.ToUserId = _userService.GetAdministrator().UserId;
-            }
-
-            else
-            {
-                entity.ToUserId = _userService.GetUserByEmail(model.To).UserId;
-            }
+            entity.ToUserId = _userService.GetUserByEmail(model.To).UserId;
 
             _messageService.Insert(entity);
             _unitOfWork.SaveChanges();
